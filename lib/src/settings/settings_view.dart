@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
+import 'package:japanese_year_calculator/src/settings/settings_service.dart';
 import 'settings_controller.dart';
 
 class SettingLeft extends StatelessWidget {
@@ -62,8 +63,14 @@ class SettingsView extends StatelessWidget {
               ),
               Row(
                 children: [
-                  SettingLeft(title: context.loc.language),
-                  SettingRight(child: LanguageSelector(controller)),
+                  SettingLeft(title: context.loc.appLanguage),
+                  SettingRight(child: AppLanguageSelector(controller)),
+                ],
+              ),
+              Row(
+                children: [
+                  SettingLeft(title: context.loc.dateLanguage),
+                  SettingRight(child: DateLanguageSelector(controller)),
                 ],
               ),
             ],
@@ -103,25 +110,54 @@ class ThemeSelector extends StatelessWidget {
   }
 }
 
-class LanguageSelector extends StatelessWidget {
+class DateLanguageSelector extends StatelessWidget {
   final SettingsController controller;
 
   // ignore: use_key_in_widget_constructors
-  const LanguageSelector(this.controller);
+  const DateLanguageSelector(this.controller);
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: controller.language,
-      onChanged: controller.updateLanguage,
+    return DropdownButton<DateLanguagePreference>(
+      value: controller.dateLanguage,
+      onChanged: controller.updateDateLanguage,
       items: [
         DropdownMenuItem(
-          value: 'en',
-          child: Text(context.loc.english),
+          value: DateLanguagePreference.en,
+          child: Text(context.loc.romaji),
         ),
         DropdownMenuItem(
-          value: 'ja',
-          child: Text(context.loc.japanese),
+          value: DateLanguagePreference.ja,
+          child: Text(context.loc.kanji),
+        ),
+      ],
+    );
+  }
+}
+
+class AppLanguageSelector extends StatelessWidget {
+  final SettingsController controller;
+
+  // ignore: use_key_in_widget_constructors
+  const AppLanguageSelector(this.controller);
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<AppLanguagePreference>(
+      value: controller.appLanguage,
+      onChanged: controller.updateAppLanguage,
+      items: [
+        DropdownMenuItem(
+          value: AppLanguagePreference.system,
+          child: Text(context.loc.systemLanguage),
+        ),
+        DropdownMenuItem(
+          value: AppLanguagePreference.en,
+          child: Text(context.loc.englishLanguage),
+        ),
+        DropdownMenuItem(
+          value: AppLanguagePreference.ja,
+          child: Text(context.loc.japaneseLanguage),
         ),
       ],
     );

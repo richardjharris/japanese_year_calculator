@@ -3,6 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+enum AppLanguagePreference { en, ja, system }
+
+enum DateLanguagePreference { en, ja }
+
 /// A service that stores and retrieves user settings.
 ///
 /// By default, this class does not persist user settings. If you'd like to
@@ -32,22 +36,49 @@ class SettingsService {
     await prefs.setString('themeMode', theme.name);
   }
 
-  Future<String> language() async {
+  Future<AppLanguagePreference> appLanguage() async {
     final SharedPreferences prefs = await _prefs;
-    return prefs.getString('language') ?? _defaultLanguageFromPlatformLocale();
+    final String language = prefs.getString('appLanguage') ?? 'system';
+    switch (language) {
+      case 'en':
+        return AppLanguagePreference.en;
+      case 'ja':
+        return AppLanguagePreference.ja;
+      case 'system':
+      default:
+        return AppLanguagePreference.system;
+    }
   }
 
-  Future<void> updateLanguage(String language) async {
+  Future<void> updateAppLanguage(AppLanguagePreference language) async {
     final SharedPreferences prefs = await _prefs;
-    await prefs.setString('language', language);
+    await prefs.setString('appLanguage', language.name);
   }
 
-  String _defaultLanguageFromPlatformLocale() {
+  Future<DateLanguagePreference> dateLanguage() async {
+    final SharedPreferences prefs = await _prefs;
+    final String language = prefs.getString('dateLanguage') ?? 'en';
+    switch (language) {
+      case 'en':
+        return DateLanguagePreference.en;
+      case 'ja':
+        return DateLanguagePreference.ja;
+      default:
+        return _dateLanguageFromPlatformLocale();
+    }
+  }
+
+  Future<void> updateDateLanguage(DateLanguagePreference language) async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setString('dateLanguage', language.name);
+  }
+
+  DateLanguagePreference _dateLanguageFromPlatformLocale() {
     switch (PlatformDispatcher.instance.locale.languageCode) {
       case 'ja':
-        return 'ja';
+        return DateLanguagePreference.ja;
       default:
-        return 'en';
+        return DateLanguagePreference.en;
     }
   }
 }

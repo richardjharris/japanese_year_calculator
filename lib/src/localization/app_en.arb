@@ -20,7 +20,14 @@
   "systemTheme": "System",
   "lightTheme": "Light",
   "darkTheme": "Dark",
-  "language": "Language",
-  "english": "English",
-  "japanese": "Japanese"
+  "englishLanguage": "English",
+  "japaneseLanguage": "Japanese",
+  "romaji": "Romaji (English)",
+  "kanji": "Kanji (Japanese)",
+  "appLanguage": "Application language",
+  "dateLanguage": "Date language",
+  "systemLanguage": "System",
+  "@systemLanguage": {
+    "description": "Option shown to denote using the system locale (language)"
+  }
 }

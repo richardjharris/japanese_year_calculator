@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:japanese_year_calculator/src/settings/settings_controller.dart';
+import 'package:japanese_year_calculator/src/settings/settings_service.dart';
 import 'package:japanese_year_calculator/src/year_calculator.dart';
 import 'package:japanese_year_calculator/src/settings/settings_view.dart';
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
@@ -42,7 +43,7 @@ class _YearDialViewState extends State<YearDialView> {
           Expanded(
             child: YearDialWheel(
               scrollController: _dialWheelScrollController,
-              dialLanguage: widget.settings.language,
+              dialLanguage: widget.settings.dateLanguage,
             ),
           ),
           Container(
@@ -181,10 +182,12 @@ class DialWheelScrollController extends FixedExtentScrollController {
 
 class YearDialWheel extends StatelessWidget {
   final ScrollController scrollController;
-  final String dialLanguage;
+  final DateLanguagePreference dialLanguage;
 
   const YearDialWheel(
-      {Key? key, required this.scrollController, this.dialLanguage = 'en'})
+      {Key? key,
+      required this.scrollController,
+      this.dialLanguage = DateLanguagePreference.en})
       : super(key: key);
 
   @override

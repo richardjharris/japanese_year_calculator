@@ -13,20 +13,42 @@ class SettingsController with ChangeNotifier {
   SettingsController(this._settingsService);
 
   final SettingsService _settingsService;
+
+  /// The current theme preference (light, dark or system)
   late ThemeMode _themeMode;
-  late String _language;
+
+  /// The current app language preference ('en' or 'ja')
+  late AppLanguagePreference _appLanguage;
+
+  /// The language used for showing Japanese dates on the dial.
+  late DateLanguagePreference _dateLanguage;
 
   /// Returns the user's preferred [ThemeMode].
   ThemeMode get themeMode => _themeMode;
 
-  /// Returns the user's preferred language.
-  String get language => _language;
+  /// Returns the user's preferred language for the application.
+  AppLanguagePreference get appLanguage => _appLanguage;
+
+  /// Returns the user's preferred language for dates.
+  DateLanguagePreference get dateLanguage => _dateLanguage;
+
+  Locale? appLocale() {
+    switch (appLanguage) {
+      case AppLanguagePreference.en:
+        return const Locale('en');
+      case AppLanguagePreference.ja:
+        return const Locale('ja');
+      case AppLanguagePreference.system:
+        return null;
+    }
+  }
 
   /// Load all settings from the backend. Can be used prior to building the root
   /// widget in order to prevent a 'flash' of changes after the first render.
   Future<void> loadSettings() async {
     _themeMode = await _settingsService.themeMode();
-    _language = await _settingsService.language();
+    _appLanguage = await _settingsService.appLanguage();
+    _dateLanguage = await _settingsService.dateLanguage();
 
     // Important! Inform listeners a change has occurred.
     notifyListeners();
@@ -45,12 +67,21 @@ class SettingsController with ChangeNotifier {
     await _settingsService.updateThemeMode(newThemeMode);
   }
 
-  Future<void> updateLanguage(String? language) async {
+  Future<void> updateAppLanguage(AppLanguagePreference? language) async {
     if (language == null) return;
-    if (language == _language) return;
+    if (language == _appLanguage) return;
 
-    _language = language;
+    _appLanguage = language;
     notifyListeners();
-    await _settingsService.updateLanguage(language);
+    await _settingsService.updateAppLanguage(language);
+  }
+
+  Future<void> updateDateLanguage(DateLanguagePreference? language) async {
+    if (language == null) return;
+    if (language == _dateLanguage) return;
+
+    _dateLanguage = language;
+    notifyListeners();
+    await _settingsService.updateDateLanguage(language);
   }
 }

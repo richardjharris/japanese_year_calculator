@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
           restorationScopeId: 'app',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          locale: settingsController.appLocale(),
 
           onGenerateTitle: (BuildContext context) => context.loc.appTitle,
 

@@ -1,3 +1,5 @@
+import 'package:japanese_year_calculator/src/settings/settings_service.dart';
+
 /// Defines a range of years (known as 元号 in Japan) with its Romaji and
 /// Kanji titles.
 ///
@@ -30,8 +32,14 @@ class JapaneseYear {
   String toRomaji() => '${era.romajiTitle} $index';
   String toKanji() => '${era.kanjiTitle} $index';
 
-  String toLocalizedString({required String language}) =>
-      language == 'ja' ? toKanji() : toRomaji();
+  String toLocalizedString({required DateLanguagePreference language}) {
+    switch (language) {
+      case DateLanguagePreference.en:
+        return toRomaji();
+      case DateLanguagePreference.ja:
+        return toKanji();
+    }
+  }
 }
 
 class YearCalculator {
