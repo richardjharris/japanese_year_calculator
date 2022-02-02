@@ -10,22 +10,58 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:japanese_year_calculator/src/year_dial/year_dial_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
-  group('MyWidget', () {
-    testWidgets('should display a string of text', (WidgetTester tester) async {
-      // Define a Widget
-      const myWidget = MaterialApp(
+  group('YearSelector', () {
+    testWidgets('onSelected and onInvalid callbacks',
+        (WidgetTester tester) async {
+      List<String> calls = [];
+
+      final yearSelector = YearSelector(
+        onSelected: (year) {
+          calls.add("selected $year");
+        },
+        onInvalid: () {
+          calls.add('invalid');
+        },
+      );
+
+      final scaffold = MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('en'),
         home: Scaffold(
-          body: Text('Hello'),
+          body: yearSelector,
         ),
       );
 
-      // Build myWidget and trigger a frame.
-      await tester.pumpWidget(myWidget);
+      await tester.pumpWidget(scaffold);
+      expect(find.text('Lookup'), findsOneWidget);
 
-      // Verify myWidget shows some text
-      expect(find.byType(Text), findsOneWidget);
+      await tester.enterText(find.byType(TextField), '1985');
+      await tester.tap(find.text('Lookup'));
+      expect(calls, ['selected 1985']);
+
+      calls = [];
+      await tester.enterText(find.byType(TextField), 'abc');
+      await tester.tap(find.text('Lookup'));
+      expect(calls, ['invalid']);
+    });
+
+    testWidgets('Japanese locale', (WidgetTester tester) async {
+      final scaffold = MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('ja', 'JP'),
+        home: Scaffold(
+          body: YearSelector(onInvalid: () {}, onSelected: (_) {}),
+        ),
+      );
+
+      await tester.pumpWidget(scaffold);
+      expect(find.text('変換'), findsOneWidget);
     });
   });
 }
