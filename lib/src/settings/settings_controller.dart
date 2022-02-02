@@ -29,7 +29,7 @@ class SettingsController with ChangeNotifier {
   /// Returns the user's preferred language for the application.
   AppLanguagePreference get appLanguage => _appLanguage;
 
-  /// Returns the user's preferred language for dates.
+  /// Returns the user's preferred language for Japanese dates.
   DateLanguagePreference get dateLanguage => _dateLanguage;
 
   Locale? appLocale() {

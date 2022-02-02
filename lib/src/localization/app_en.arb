@@ -7,9 +7,21 @@
   "@convertYearButton": {
     "description": "Button next to text input that converts the input year to Japanese era"
   },
-  "enterWesternYearHint": "Enter a Western year e.g. 2022",
-  "@enterWesterYearHint": {
-    "description": "Hint shown inside year text input"
+  "enterWesternYearHint": "Enter a Western year ({earliestYear}-{latestYear})",
+  "@enterWesternYearHint": {
+    "description": "Hint shown inside year text input",
+    "placeholders": {
+      "earliestYear": {
+        "type": "int",
+        "description": "The earliest acceptable year",
+        "example": "1968"
+      },
+      "latestYear": {
+        "type": "int",
+        "description": "The latest acceptable year",
+        "example": "2030"
+      } 
+    }
   },
   "invalidYearError": "Invalid year. Please enter a 4-digit year such as 1985 or 2021.",
   "@invalidYearError": {

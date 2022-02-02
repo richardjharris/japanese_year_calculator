@@ -1,7 +1,7 @@
 {
   "appTitle": "西暦・元号変換機",
   "convertYearButton": "変換",
-  "enterWesternYearHint": "西暦を入力してください",
+  "enterWesternYearHint": "西暦 ({earliestYear}〜{latestYear})",
   "invalidYearError": "西暦が不正です。４桁の西暦(1985, 2012など)を入力してください。",
   "settings": "設定",
   "theme": "テーマ",

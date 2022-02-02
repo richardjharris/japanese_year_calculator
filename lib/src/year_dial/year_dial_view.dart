@@ -5,6 +5,7 @@ import 'package:japanese_year_calculator/src/settings/settings_service.dart';
 import 'package:japanese_year_calculator/src/year_calculator.dart';
 import 'package:japanese_year_calculator/src/settings/settings_view.dart';
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
+import 'package:japanese_year_calculator/src/year_dial/year_selector.dart';
 
 class YearDialView extends StatefulWidget {
   final SettingsController settings;
@@ -22,6 +23,12 @@ class _YearDialViewState extends State<YearDialView> {
       DialWheelScrollController();
 
   final double yearSelectorHeight = 48;
+
+  @override
+  void dispose() {
+    _dialWheelScrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,81 +75,6 @@ class _YearDialViewState extends State<YearDialView> {
         ],
       ),
     );
-  }
-}
-
-/// Widget to jump directly to a specific year.
-class YearSelector extends StatefulWidget {
-  final ValueSetter<int> onSelected;
-  final VoidCallback onInvalid;
-
-  const YearSelector(
-      {Key? key, required this.onSelected, required this.onInvalid})
-      : super(key: key);
-
-  @override
-  _YearSelectorState createState() => _YearSelectorState();
-}
-
-class _YearSelectorState extends State<YearSelector> {
-  final TextEditingController _yearInputController = TextEditingController();
-  final FocusNode _yearInputFocusNode = FocusNode();
-
-  @override
-  void dispose() {
-    _yearInputController.dispose();
-    _yearInputFocusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-            child: TextField(
-          autofocus: true,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            hintText: context.loc.enterWesternYearHint,
-            filled: true,
-            fillColor: Theme.of(context).primaryColorLight,
-            suffixIcon: IconButton(
-              icon: const Icon(Icons.clear),
-              onPressed: () {
-                _yearInputController.clear();
-              },
-            ),
-            // Hide the '0/4' helper text that would show because we have [maxLength] set.
-            counterText: '',
-          ),
-          maxLength: 4,
-          controller: _yearInputController,
-          focusNode: _yearInputFocusNode,
-          onEditingComplete: _onSubmit,
-        )),
-        Container(
-            margin: const EdgeInsets.only(left: 10),
-            child: ElevatedButton(
-              child: Text(context.loc.convertYearButton),
-              onPressed: _onSubmit,
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(100, 48),
-              ),
-            )),
-      ],
-    );
-  }
-
-  void _onSubmit() async {
-    final year = int.tryParse(_yearInputController.text);
-    if (year != null) {
-      widget.onSelected(year);
-      _yearInputController.clear();
-    } else {
-      //_yearInputFocusNode.requestFocus();
-      widget.onInvalid();
-    }
   }
 }
 
@@ -206,30 +138,61 @@ class YearDialWheel extends StatelessWidget {
           physics: const FixedExtentScrollPhysics(),
           childDelegate: ListWheelChildBuilderDelegate(
             builder: (context, index) {
-              final year = DialWheelSettings.firstYear + index;
-              final japaneseYear = YearCalculator.getJapaneseYear(year);
-              final japaneseYearLabel =
-                  japaneseYear.toLocalizedString(language: dialLanguage);
+              final westernYear = DialWheelSettings.firstYear + index;
+              print(
+                  "builder: $westernYear  first ${DialWheelSettings.firstYear} last ${DialWheelSettings.lastYear}");
+
+              if (westernYear < DialWheelSettings.firstYear ||
+                  westernYear > DialWheelSettings.lastYear) {
+                return null;
+              }
+
               return Row(children: [
                 Expanded(
-                    flex: 5,
-                    child: Text(
-                      '$year',
-                      style: const TextStyle(fontSize: 20),
-                      textAlign: TextAlign.right,
-                    )),
-                const SizedBox(width: 30),
-                Expanded(
-                    flex: 5,
-                    child: Text(
-                      japaneseYearLabel,
-                      style: const TextStyle(fontSize: 20),
-                      textAlign: TextAlign.left,
-                    )),
+                  flex: 5,
+                  child: _westernYearLabel(westernYear),
+                ),
+                const SizedBox(width: 20),
+                Expanded(flex: 5, child: _japaneseYearLabel(westernYear)),
               ]);
             },
             childCount: DialWheelSettings.numYears,
           ),
         ));
+  }
+
+  Widget _westernYearLabel(int westernYear) {
+    return Text(
+      '$westernYear',
+      style: const TextStyle(fontSize: 20),
+      textAlign: TextAlign.right,
+    );
+  }
+
+  Widget _japaneseYearLabel(int westernYear) {
+    print("_japaneseYearLabel: $westernYear");
+    final japaneseYears = YearCalculator.getAllJapaneseYears(westernYear);
+
+    List<Widget> items = [
+      Text(
+        japaneseYears.last.toLocalizedString(language: dialLanguage),
+        style: const TextStyle(fontSize: 20),
+        textAlign: TextAlign.left,
+      )
+    ];
+
+    if (japaneseYears.length > 1) {
+      assert(japaneseYears.length == 2);
+
+      String altLabel =
+          japaneseYears.first.toLocalizedString(language: dialLanguage);
+      items.add(Text(
+        ' ・ $altLabel',
+        style: const TextStyle(fontSize: 10),
+        textAlign: TextAlign.left,
+      ));
+    }
+
+    return Row(children: items);
   }
 }

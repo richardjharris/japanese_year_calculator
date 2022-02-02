@@ -77,7 +77,7 @@ class YearCalculator {
   /// Heisei 31.
   static List<JapaneseYear> getAllJapaneseYears(int westernYear) {
     var list = [getJapaneseYear(westernYear)];
-    if (list.first.isFoundingYear) {
+    if (list.first.isFoundingYear && westernYear > earliestWesternYear) {
       var previousYear = getJapaneseYear(westernYear - 1);
       list.insert(0,
           JapaneseYear(era: previousYear.era, index: previousYear.index + 1));

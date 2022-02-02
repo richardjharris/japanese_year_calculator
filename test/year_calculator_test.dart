@@ -19,6 +19,7 @@ void main() {
       expect(YearCalculator.getJapaneseYear(1988).toRomaji(), 'Shōwa 63');
       expect(YearCalculator.getJapaneseYear(1985).toRomaji(), 'Shōwa 60');
       expect(YearCalculator.getJapaneseYear(1868).toRomaji(), 'Meiji 1');
+      expect(YearCalculator.getJapaneseYear(1869).toRomaji(), 'Meiji 2');
       expect(YearCalculator.getJapaneseYear(1911).toRomaji(), 'Meiji 44');
       expect(YearCalculator.getJapaneseYear(1912).toRomaji(), 'Taishō 1');
     });

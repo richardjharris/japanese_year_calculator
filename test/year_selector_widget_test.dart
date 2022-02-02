@@ -10,8 +10,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:japanese_year_calculator/src/year_dial/year_dial_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:japanese_year_calculator/src/year_dial/year_selector.dart';
 
 void main() {
   group('YearSelector', () {
