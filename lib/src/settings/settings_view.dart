@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
 import 'settings_controller.dart';
 
 class SettingLeft extends StatelessWidget {
@@ -46,26 +47,28 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
-      body: Column(
-        children: [
-          Row(
+        appBar: AppBar(
+          title: Text(context.loc.settings),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Column(
             children: [
-              const SettingLeft(title: 'Theme'),
-              SettingRight(child: ThemeSelector(controller)),
+              Row(
+                children: [
+                  SettingLeft(title: context.loc.theme),
+                  SettingRight(child: ThemeSelector(controller)),
+                ],
+              ),
+              Row(
+                children: [
+                  SettingLeft(title: context.loc.language),
+                  SettingRight(child: LanguageSelector(controller)),
+                ],
+              ),
             ],
           ),
-          Row(
-            children: [
-              const SettingLeft(title: 'Language'),
-              SettingRight(child: LanguageSelector(controller)),
-            ],
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
@@ -82,18 +85,18 @@ class ThemeSelector extends StatelessWidget {
       value: controller.themeMode,
       // Call the updateThemeMode method any time the user selects a theme.
       onChanged: controller.updateThemeMode,
-      items: const [
+      items: [
         DropdownMenuItem(
           value: ThemeMode.system,
-          child: Text('System Theme'),
+          child: Text(context.loc.systemTheme),
         ),
         DropdownMenuItem(
           value: ThemeMode.light,
-          child: Text('Light Theme'),
+          child: Text(context.loc.lightTheme),
         ),
         DropdownMenuItem(
           value: ThemeMode.dark,
-          child: Text('Dark Theme'),
+          child: Text(context.loc.darkTheme),
         )
       ],
     );
@@ -111,14 +114,14 @@ class LanguageSelector extends StatelessWidget {
     return DropdownButton<String>(
       value: controller.language,
       onChanged: controller.updateLanguage,
-      items: const [
+      items: [
         DropdownMenuItem(
           value: 'en',
-          child: Text('English'),
+          child: Text(context.loc.english),
         ),
         DropdownMenuItem(
           value: 'ja',
-          child: Text('Japanese'),
+          child: Text(context.loc.japanese),
         ),
       ],
     );

@@ -14,5 +14,13 @@
   "invalidYearError": "Invalid year. Please enter a 4-digit year such as 1985 or 2021.",
   "@invalidYearError": {
     "description": "Error message shown when year in invalid. Include an example of a valid 4-digit year."
-  }
+  },
+  "settings": "Settings",
+  "theme": "Theme",
+  "systemTheme": "System",
+  "lightTheme": "Light",
+  "darkTheme": "Dark",
+  "language": "Language",
+  "english": "English",
+  "japanese": "Japanese"
 }
