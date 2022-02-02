@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
-import 'package:japanese_year_calculator/src/year_dial/year_dial_view.dart';
+import 'package:japanese_year_calculator/src/year_dial/dial_wheel_settings.dart';
 
 /// Widget to jump directly to a specific year.
 class YearSelector extends StatefulWidget {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:japanese_year_calculator/src/info/info_view.dart';
 
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
+import 'package:japanese_year_calculator/src/themes.dart';
 import 'package:japanese_year_calculator/src/year_dial/year_dial_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
@@ -35,8 +37,8 @@ class MyApp extends StatelessWidget {
 
           onGenerateTitle: (BuildContext context) => context.loc.appTitle,
 
-          theme: ThemeData(),
-          darkTheme: ThemeData.dark(),
+          theme: Themes.lightTheme,
+          darkTheme: Themes.darkTheme,
           themeMode: settingsController.themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {
             return MaterialPageRoute<void>(
@@ -45,6 +47,8 @@ class MyApp extends StatelessWidget {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
+                  case InfoView.routeName:
+                    return const InfoView();
                   case YearDialView.routeName:
                   default:
                     return YearDialView(settings: settingsController);

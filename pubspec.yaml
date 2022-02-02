@@ -2,7 +2,7 @@ name: japanese_year_calculator
 description: Convert between Western and Japanese years (eras)
 
 # Prevent accidental publishing to pub.dev.
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -15,9 +15,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   shared_preferences: ^2.0.12
+  # Minor dep: for clickable e-mail in about section
+  url_launcher: ^6.0.18
 
 dev_dependencies:
-
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter

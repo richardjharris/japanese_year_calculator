@@ -4,6 +4,7 @@
   "enterWesternYearHint": "西暦 ({earliestYear}〜{latestYear})",
   "invalidYearError": "西暦が不正です。４桁の西暦(1985, 2012など)を入力してください。",
   "settings": "設定",
+  "info": "年号一覧表",
   "theme": "テーマ",
   "systemTheme": "システム",
   "lightTheme": "ライト",
@@ -14,5 +15,10 @@
   "kanji": "漢字",
   "appLanguage": "アプリ言語",
   "dateLanguage": "元号の表記",
-  "systemLanguage": "システム"
+  "systemLanguage": "システム",
+  "settingsTooltip": "テーマ・言語を変える",
+  "infoTooltip": "元号一覧とクレジットを見る",
+  "appCredits": "クレジット",
+  "appCreditsBeforeEmail": "開発者：Richard Harris （",
+  "appCreditsAfterEmail": "）。ご意見やお気づきの点がありましたら、そのメールアドレスまでお願いいたします。"
 }

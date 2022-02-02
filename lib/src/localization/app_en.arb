@@ -27,6 +27,7 @@
   "@invalidYearError": {
     "description": "Error message shown when year in invalid. Include an example of a valid 4-digit year."
   },
+  "info": "List of eras",
   "settings": "Settings",
   "theme": "Theme",
   "systemTheme": "System",
@@ -41,5 +42,10 @@
   "systemLanguage": "System",
   "@systemLanguage": {
     "description": "Option shown to denote using the system locale (language)"
-  }
+  },
+  "settingsTooltip": "Change theme or language",
+  "infoTooltip": "Full era list and app credits",
+  "appCredits": "App credits",
+  "appCreditsBeforeEmail": "This app was created by Richard Harris (",
+  "appCreditsAfterEmail": "). Please contact me if you have any issues or feature requests."
 }
