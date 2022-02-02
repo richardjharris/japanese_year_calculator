@@ -29,6 +29,9 @@ class JapaneseYear {
 
   String toRomaji() => '${era.romajiTitle} $index';
   String toKanji() => '${era.kanjiTitle} $index';
+
+  String toLocalizedString({required String language}) =>
+      language == 'ja' ? toKanji() : toRomaji();
 }
 
 class YearCalculator {

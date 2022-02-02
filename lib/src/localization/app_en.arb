@@ -2,5 +2,17 @@
   "appTitle": "Japanese Year Calculator",
   "@appTitle": {
     "description": "The title of the application"
+  },
+  "convertYearButton": "Lookup",
+  "@convertYearButton": {
+    "description": "Button next to text input that converts the input year to Japanese era"
+  },
+  "enterWesternYearHint": "Enter a Western year e.g. 2022",
+  "@enterWesterYearHint": {
+    "description": "Hint shown inside year text input"
+  },
+  "invalidYearError": "Invalid year. Please enter a 4-digit year such as 1985 or 2021.",
+  "@invalidYearError": {
+    "description": "Error message shown when year in invalid. Include an example of a valid 4-digit year."
   }
 }
