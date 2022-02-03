@@ -1,5 +1,5 @@
 import 'package:japanese_year_calculator/src/settings/settings_service.dart';
-import 'package:japanese_year_calculator/src/era_data.dart' as era_data;
+import 'package:japanese_year_calculator/src/core/era_data.dart' as era_data;
 
 /// Defines an era (known as 元号 in Japan) with its initial Western year and
 /// its title in various forms.

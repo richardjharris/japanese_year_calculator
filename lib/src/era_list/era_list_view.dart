@@ -1,17 +1,13 @@
-import 'dart:convert';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
-import 'package:japanese_year_calculator/src/year_calculator.dart';
+import 'package:japanese_year_calculator/src/core/year_calculator.dart';
 
-/// Displays a list of eras, and app credits.
-class InfoView extends StatelessWidget {
-  const InfoView({Key? key}) : super(key: key);
+/// Displays a list of all eras.
+class EraListView extends StatelessWidget {
+  const EraListView({Key? key}) : super(key: key);
 
-  static const routeName = '/info';
+  static const routeName = '/eras';
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +15,10 @@ class InfoView extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.loc.info),
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          //crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            Expanded(
-              child: ScrollableEraList(),
-            ),
-            AppCredits(),
-          ],
-        ),
+        alignment: Alignment.center,
+        child: const ScrollableEraList(),
       ),
     );
   }
@@ -152,55 +141,6 @@ class ScrollableEraList extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AppCredits extends StatelessWidget {
-  const AppCredits({Key? key}) : super(key: key);
-
-  static final String email = String.fromCharCodes(
-      base64.decode('cmljaGFyZGpoYXJyaXMranljQGdtYWlsLmNvbQ=='));
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(context.loc.appCredits,
-                style: Theme.of(context).textTheme.headline4),
-            const SizedBox(height: 8.0),
-            _creditsText(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _creditsText(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.headline6!;
-    final linkStyle = textStyle.copyWith(
-      color: Theme.of(context).buttonTheme.colorScheme!.primary,
-      decoration: TextDecoration.underline,
-    );
-
-    return RichText(
-      text: TextSpan(
-        text: context.loc.appCreditsBeforeEmail,
-        style: textStyle,
-        children: [
-          TextSpan(
-            text: email,
-            style: linkStyle,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => launch('mailto:$email'),
-          ),
-          TextSpan(text: context.loc.appCreditsAfterEmail, style: textStyle),
-        ],
       ),
     );
   }

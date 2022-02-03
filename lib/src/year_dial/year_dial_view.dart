@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:japanese_year_calculator/src/info/info_view.dart';
+import 'package:japanese_year_calculator/src/era_list/era_list_view.dart';
 import 'package:japanese_year_calculator/src/settings/settings_controller.dart';
 import 'package:japanese_year_calculator/src/settings/settings_view.dart';
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
@@ -37,11 +37,11 @@ class _YearDialViewState extends State<YearDialView> {
         title: Text(context.loc.appTitle),
         actions: [
           IconButton(
-            icon: const Icon(Icons.info),
-            tooltip: context.loc.infoTooltip,
+            icon: const Icon(Icons.view_list),
+            tooltip: context.loc.eraListTooltip,
             onPressed: () {
               // Restorable push means the state will persist across app restarts.
-              Navigator.restorablePushNamed(context, InfoView.routeName);
+              Navigator.restorablePushNamed(context, EraListView.routeName);
             },
           ),
           const SizedBox(width: 10.0),

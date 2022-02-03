@@ -29,8 +29,7 @@ to SharedPreferences, and rebuilding the app upon change.
 ```
 lib/src/(feature)            - Feature code (controller, service, view, widget)
 lib/src/localization         - Localized messages
-lib/src/year_calculator.dart - Calculator logic (non-Flutter)
-lib/src/era_data.dart        - Era names and start years
+lib/src/core                 - Calculator logic (non-Flutter)
 lib/src/themes.dart          - Theming
 lib/src/app.dart             - App routing
 lib/main.dart                - App entry point

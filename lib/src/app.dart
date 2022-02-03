@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:japanese_year_calculator/src/info/info_view.dart';
+import 'package:japanese_year_calculator/src/era_list/era_list_view.dart';
 
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
 import 'package:japanese_year_calculator/src/themes.dart';
@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
-                  case InfoView.routeName:
-                    return const InfoView();
+                  case EraListView.routeName:
+                    return const EraListView();
                   case YearDialView.routeName:
                   default:
                     return YearDialView(settings: settingsController);

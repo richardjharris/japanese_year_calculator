@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
+import 'package:japanese_year_calculator/src/settings/app_credits.dart';
 import 'package:japanese_year_calculator/src/settings/settings_service.dart';
 import 'settings_controller.dart';
 
+/// Left side (label) for a setting
 class SettingLeft extends StatelessWidget {
   final String title;
 
@@ -21,6 +23,7 @@ class SettingLeft extends StatelessWidget {
   }
 }
 
+/// Right side (control) for a setting
 class SettingRight extends StatelessWidget {
   final Widget child;
 
@@ -38,6 +41,8 @@ class SettingRight extends StatelessWidget {
 ///
 /// When a user changes a setting, the SettingsController is updated and
 /// Widgets that listen to the SettingsController are rebuilt.
+///
+/// App credits are shown at the bottom.
 class SettingsView extends StatelessWidget {
   const SettingsView({Key? key, required this.controller}) : super(key: key);
 
@@ -52,30 +57,34 @@ class SettingsView extends StatelessWidget {
           title: Text(context.loc.settings),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  SettingLeft(title: context.loc.theme),
-                  SettingRight(child: ThemeSelector(controller)),
-                ],
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Column(children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SettingLeft(title: context.loc.theme),
+                        SettingRight(child: ThemeSelector(controller)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SettingLeft(title: context.loc.appLanguage),
+                        SettingRight(child: AppLanguageSelector(controller)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SettingLeft(title: context.loc.dateLanguage),
+                        SettingRight(child: DateLanguageSelector(controller)),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  SettingLeft(title: context.loc.appLanguage),
-                  SettingRight(child: AppLanguageSelector(controller)),
-                ],
-              ),
-              Row(
-                children: [
-                  SettingLeft(title: context.loc.dateLanguage),
-                  SettingRight(child: DateLanguageSelector(controller)),
-                ],
-              ),
-            ],
-          ),
-        ));
+              const AppCredits(),
+            ])));
   }
 }
 

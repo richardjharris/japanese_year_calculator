@@ -44,10 +44,34 @@
     "description": "Option shown to denote using the system locale (language)"
   },
   "settingsTooltip": "Change theme or language",
-  "infoTooltip": "Full era list and app credits",
-  "appCredits": "App credits",
-  "appCreditsBeforeEmail": "This app was created by Richard Harris (",
-  "appCreditsAfterEmail": "). Please contact me if you have any issues or feature requests.",
+  "eraListTooltip": "See list of all eras",
+  "appCreditsHeader": "App credits",
+  "appCreditsBody": "This app was created by Richard Harris ({appDeveloperEmail}). Please contact me if you have any issues or feature requests. ",
+  "@appCreditsBody": {
+    "placeholders": {
+      "appDeveloperEmail": {
+        "type": "String",
+        "description": "App developer e-mail address",
+        "example": "joe@bloggs.com"
+      }
+    }
+  },
+  "appCreditsAttribution": "Era data was sourced from {wikipedia} under the {ccLicenseName}.",
+  "@appCreditsAttribution": {
+    "placeholders": {
+      "wikipedia": {
+        "type": "String",
+        "description": "Link to Wikipedia source article"
+      },
+      "ccLicenseName": {
+        "type": "String",
+        "description": "Name of the CC license used for the underlying app data"
+      }
+    }  
+  },
+  "ccLicenseName": "Creative Commons Attribution-ShareAlike 3.0 Unported License",
+  "ccLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "wikipedia": "Wikipedia",
   "fromYear": "From",
   "untilYear": "Until",
   "kanjiHeading": "Japanese",

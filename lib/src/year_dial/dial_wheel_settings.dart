@@ -1,4 +1,4 @@
-import 'package:japanese_year_calculator/src/year_calculator.dart';
+import 'package:japanese_year_calculator/src/core/year_calculator.dart';
 
 class DialWheelSettings {
   static const futureYearsToShow = 9;
