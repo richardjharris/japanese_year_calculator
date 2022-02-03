@@ -12,6 +12,9 @@ A simple Flutter app that converts between Japanese and Western years.
 - Settings: add reverse option (?)
 - Settings: allow kana option for era names
 
+- Fix: The offending Expanded is currently placed inside a Padding widget.
+  ( SizedBox.shrink ← Expanded ← Spacer ← Padding ← Table ← \_SingleChildViewport ← IgnorePointer-[GlobalKey#4fe99] ← Semantics ← Listener ← \_GestureSemantics ← ⋯)
+
 ## Development
 
 ### State management
