@@ -57,12 +57,13 @@ class SettingsService {
 
   Future<DateLanguagePreference> dateLanguage() async {
     final SharedPreferences prefs = await _prefs;
-    final String language = prefs.getString('dateLanguage') ?? 'en';
+    final String language = prefs.getString('dateLanguage') ?? 'from_locale';
     switch (language) {
       case 'en':
         return DateLanguagePreference.en;
       case 'ja':
         return DateLanguagePreference.ja;
+      case 'from_locale':
       default:
         return _dateLanguageFromPlatformLocale();
     }

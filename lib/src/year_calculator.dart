@@ -1,24 +1,36 @@
 import 'package:japanese_year_calculator/src/settings/settings_service.dart';
+import 'package:japanese_year_calculator/src/era_data.dart' as era_data;
 
-/// Defines a range of years (known as 元号 in Japan) with its Romaji and
-/// Kanji titles.
-///
-/// The current era will have an [endYear] of null.
+/// Defines an era (known as 元号 in Japan) with its initial Western year and
+/// its title in various forms.
 class JapaneseEra {
-  final String romajiTitle;
-  final String kanjiTitle;
+  /// The Western year corresponding to year 1 for this era.
   final int startYear;
-  final int? endYear;
+
+  /// The Kanji form of the era, e.g. "令和".
+  final String kanjiTitle;
+
+  /// The kana form of the era, e.g. "れいわ". Multiple forms can be provided,
+  /// separated by '/'.
+  final String kanaTitles;
+
+  /// The Romaji form of the era, e.g. "Reiwa". Multiple forms can be provided,
+  /// separated by '/' (in the same order as [kanaTitle]).
+  final String romajiTitles;
+
+  String get kanaTitle => kanaTitles.split('/').first;
+  String get romajiTitle => romajiTitles.split('/').first;
+  bool get isUnnamed => kanjiTitle == '－';
 
   const JapaneseEra(
-      this.romajiTitle, this.kanjiTitle, this.startYear, this.endYear);
+      this.startYear, this.kanjiTitle, this.kanaTitles, this.romajiTitles);
 
-  /// Returns true if this era contains the given year.
-  bool contains(int westernYear) =>
-      westernYear >= startYear && (endYear == null || westernYear <= endYear!);
+  /// Constructor for eras that have no official name.
+  const JapaneseEra.unnamed(int startYear) : this(startYear, '－', '－', '－');
 }
 
-/// Holds a Japanese year [era] (Reiwa, Showa etc.) and [index] (1 for the first year).
+/// Holds a Japanese year [era] (Reiwa, Showa etc.) and year [index] (1 for the
+/// first year).
 class JapaneseYear {
   final JapaneseEra era;
   final int index;
@@ -43,16 +55,8 @@ class JapaneseYear {
 }
 
 class YearCalculator {
-  static const _eras = [
-    JapaneseEra("Meiji", "明治", 1868, 1912),
-    JapaneseEra("Taishō", "大正", 1912, 1926),
-    JapaneseEra("Shōwa", "昭和", 1926, 1989),
-    JapaneseEra("Heisei", "平成", 1989, 2019),
-    JapaneseEra("Reiwa", "令和", 2019, null),
-  ];
-
-  /// Returns a list of all known year ranges.
-  static List<JapaneseEra> get allEras => _eras;
+  /// Returns a list of all known year ranges, earliest first.
+  static List<JapaneseEra> get allEras => era_data.eras;
 
   /// Returns the earliest Western year that we can calculate a Japanese year for.
   static int get earliestWesternYear => allEras.first.startYear;
@@ -65,7 +69,7 @@ class YearCalculator {
   ///
   /// Throws a [StateError] if the year is not covered by this calculator.
   static JapaneseYear getJapaneseYear(int westernYear) {
-    final era = allEras.lastWhere((era) => era.contains(westernYear));
+    final era = allEras.lastWhere((era) => westernYear >= era.startYear);
 
     return JapaneseYear(era: era, index: westernYear - era.startYear + 1);
   }
@@ -75,13 +79,39 @@ class YearCalculator {
   ///
   /// For example, `getAllJapaneseYears(2019)` will return both Reiwa 1 and
   /// Heisei 31.
+  ///
+  /// For the year 686, returns three eras, as the year contained an era that
+  /// lasted only two months, in addition to two at either end.
+  ///
+  /// Throws a [StateError] if the year is not covered by this calculator.
   static List<JapaneseYear> getAllJapaneseYears(int westernYear) {
-    var list = [getJapaneseYear(westernYear)];
-    if (list.first.isFoundingYear && westernYear > earliestWesternYear) {
-      var previousYear = getJapaneseYear(westernYear - 1);
-      list.insert(0,
-          JapaneseYear(era: previousYear.era, index: previousYear.index + 1));
+    List matches = <JapaneseYear>[];
+
+    for (int i = allEras.length - 1; i >= 0; i--) {
+      final era = allEras[i];
+      int index = westernYear - era.startYear + 1;
+      if (index < 1) {
+        continue;
+      }
+
+      matches.add(JapaneseYear(era: era, index: index));
+
+      /// Look further back for other era matches.
+      while (index == 1 && i > 0) {
+        i -= 1;
+
+        /// Corresponds to the final year of the previous era.
+        final previousEra = allEras[i];
+        final previousIndex = westernYear - previousEra.startYear + 1;
+        matches.add(JapaneseYear(era: previousEra, index: previousIndex));
+
+        /// For some years like 686, the previousEra is only one year
+        /// long, so we need to look further back.
+        index = previousIndex;
+      }
+      break;
     }
-    return list;
+
+    return (matches as List<JapaneseYear>);
   }
 }

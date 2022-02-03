@@ -29,8 +29,8 @@ void main() {
           () => YearCalculator.getJapaneseYear(0), throwsA(isA<StateError>()));
       expect(
           () => YearCalculator.getJapaneseYear(-1), throwsA(isA<StateError>()));
-      // We have no data prior to Meiji 1.
-      expect(() => YearCalculator.getJapaneseYear(1867),
+      // We have no data prior to 645.
+      expect(() => YearCalculator.getJapaneseYear(300),
           throwsA(isA<StateError>()));
     });
   });
@@ -43,14 +43,19 @@ void main() {
 
     test('should return two years if applicable', () {
       expect(YearCalculator.getAllJapaneseYears(1912).map((y) => y.toRomaji()),
-          ['Meiji 45', 'Taishō 1']);
+          ['Taishō 1', 'Meiji 45']);
       expect(YearCalculator.getAllJapaneseYears(2019).map((y) => y.toRomaji()),
-          ['Heisei 31', 'Reiwa 1']);
+          ['Reiwa 1', 'Heisei 31']);
+    });
+
+    test('should return three years if applicable', () {
+      expect(YearCalculator.getAllJapaneseYears(686).map((y) => y.toRomaji()),
+          ['－ 1', 'Shuchō 1', '－ 33']);
     });
   });
 
   test('should return earliestWesternYear', () {
-    expect(YearCalculator.earliestWesternYear, 1868);
+    expect(YearCalculator.earliestWesternYear, 645);
   });
 
   test('should expose list of all year ranges', () {

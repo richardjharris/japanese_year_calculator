@@ -44,7 +44,7 @@ class _YearDialViewState extends State<YearDialView> {
               Navigator.restorablePushNamed(context, InfoView.routeName);
             },
           ),
-          SizedBox(width: 10.0),
+          const SizedBox(width: 10.0),
           IconButton(
             icon: const Icon(Icons.settings),
             tooltip: context.loc.settingsTooltip,
@@ -52,7 +52,7 @@ class _YearDialViewState extends State<YearDialView> {
               Navigator.restorablePushNamed(context, SettingsView.routeName);
             },
           ),
-          SizedBox(width: 20.0),
+          const SizedBox(width: 20.0),
         ],
       ),
       body: Column(

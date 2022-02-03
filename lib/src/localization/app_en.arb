@@ -35,8 +35,8 @@
   "darkTheme": "Dark",
   "englishLanguage": "English",
   "japaneseLanguage": "Japanese",
-  "romaji": "Romaji (English)",
-  "kanji": "Kanji (Japanese)",
+  "romajiDateSetting": "Romaji (English)",
+  "kanjiDateSetting": "Kanji (Japanese)",
   "appLanguage": "Application language",
   "dateLanguage": "Date language",
   "systemLanguage": "System",
@@ -47,5 +47,9 @@
   "infoTooltip": "Full era list and app credits",
   "appCredits": "App credits",
   "appCreditsBeforeEmail": "This app was created by Richard Harris (",
-  "appCreditsAfterEmail": "). Please contact me if you have any issues or feature requests."
+  "appCreditsAfterEmail": "). Please contact me if you have any issues or feature requests.",
+  "fromYear": "From",
+  "untilYear": "Until",
+  "kanjiHeading": "Japanese",
+  "romajiHeading": "English"
 }

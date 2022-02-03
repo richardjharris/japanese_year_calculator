@@ -89,17 +89,15 @@ class YearDialWheel extends StatelessWidget {
 
     List<Widget> items = [
       Text(
-        japaneseYears.last.toLocalizedString(language: dialLanguage),
+        japaneseYears.first.toLocalizedString(language: dialLanguage),
         style: const TextStyle(fontSize: 20),
         textAlign: TextAlign.left,
       )
     ];
 
-    if (japaneseYears.length > 1) {
-      assert(japaneseYears.length == 2);
-
+    for (int i = 1; i < japaneseYears.length; i++) {
       String altLabel =
-          japaneseYears.first.toLocalizedString(language: dialLanguage);
+          japaneseYears[i].toLocalizedString(language: dialLanguage);
       items.add(Text(
         ' ・ $altLabel',
         style: const TextStyle(fontSize: 10),

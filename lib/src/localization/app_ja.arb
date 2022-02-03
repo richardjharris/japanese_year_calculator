@@ -11,8 +11,8 @@
   "darkTheme": "ダーク",
   "englishLanguage": "英語",
   "japaneseLanguage": "日本語",
-  "romaji": "ローマ字",
-  "kanji": "漢字",
+  "romajiDateSetting": "ローマ字",
+  "kanjiDateSetting": "漢字",
   "appLanguage": "アプリ言語",
   "dateLanguage": "元号の表記",
   "systemLanguage": "システム",
@@ -20,5 +20,9 @@
   "infoTooltip": "元号一覧とクレジットを見る",
   "appCredits": "クレジット",
   "appCreditsBeforeEmail": "開発者：Richard Harris （",
-  "appCreditsAfterEmail": "）。ご意見やお気づきの点がありましたら、そのメールアドレスまでお願いいたします。"
+  "appCreditsAfterEmail": "）。ご意見やお気づきの点がありましたら、そのメールアドレスまでお願いいたします。",
+  "fromYear": "始期",
+  "untilYear": "終期",
+  "kanjiHeading": "漢字",
+  "romajiHeading": "ローマ字"
 }

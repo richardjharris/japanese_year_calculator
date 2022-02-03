@@ -124,11 +124,11 @@ class DateLanguageSelector extends StatelessWidget {
       items: [
         DropdownMenuItem(
           value: DateLanguagePreference.en,
-          child: Text(context.loc.romaji),
+          child: Text(context.loc.romajiDateSetting),
         ),
         DropdownMenuItem(
           value: DateLanguagePreference.ja,
-          child: Text(context.loc.kanji),
+          child: Text(context.loc.kanjiDateSetting),
         ),
       ],
     );
