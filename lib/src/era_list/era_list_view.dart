@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:japanese_year_calculator/src/localization/app_localizations_context.dart';
 import 'package:japanese_year_calculator/src/core/year_calculator.dart';
+import 'package:japanese_year_calculator/src/settings/settings_controller.dart';
+import 'package:japanese_year_calculator/src/settings/settings_service.dart';
 
 /// Displays a list of all eras.
 class EraListView extends StatelessWidget {
-  const EraListView({Key? key}) : super(key: key);
+  const EraListView({Key? key, required this.settings}) : super(key: key);
 
   static const routeName = '/eras';
+
+  final SettingsController settings;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,16 @@ class EraListView extends StatelessWidget {
       body: Container(
         padding: const EdgeInsets.all(10.0),
         alignment: Alignment.center,
-        child: const ScrollableEraList(),
+        child: ScrollableEraList(
+          displayOrder: settings.eraListDisplayOrder,
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.swap_vert),
+        tooltip: context.loc.reverseEraListOrder,
+        onPressed: () {
+          settings.toggleEraListDisplayOrder();
+        },
       ),
     );
   }
@@ -90,55 +103,69 @@ TableRow _eraTableHeader(BuildContext context) {
 class ScrollableEraList extends StatelessWidget {
   static final eraData = YearCalculator.allEras;
 
-  const ScrollableEraList({Key? key}) : super(key: key);
+  const ScrollableEraList({Key? key, required this.displayOrder})
+      : super(key: key);
+
+  final EraListDisplayOrderPreference displayOrder;
 
   static const style = TextStyle(fontSize: 20);
   static final headerStyle = style.copyWith(fontWeight: FontWeight.bold);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 400.0),
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Table(
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            textBaseline: TextBaseline.ideographic,
-            columnWidths: const {
-              0: FlexColumnWidth(),
-              1: FlexColumnWidth(),
-              2: FixedColumnWidth(50),
-              3: FixedColumnWidth(30),
-              4: FixedColumnWidth(50),
-            },
-            children: [
-              _eraTableHeader(context),
-              ...List<TableRow>.generate(eraData.length, (i) {
-                final era = eraData[i];
-                final endYear =
-                    i + 1 < eraData.length ? eraData[i + 1].startYear : null;
-                return TableRow(
-                  children: [
-                    Text(era.kanjiTitle, style: style),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(era.romajiTitle, style: style),
-                    ),
-                    Text(era.startYear.toString(),
-                        textAlign: TextAlign.right, style: style),
-                    const Text('-', textAlign: TextAlign.center, style: style),
-                    Text(
-                      endYear?.toString() ?? '',
-                      textAlign: TextAlign.left,
-                      style: style.copyWith(
-                          color: Theme.of(context).disabledColor),
-                    ),
-                  ].map(_addTopPadding).toList(),
-                );
-              }).reversed.toList(),
-            ],
+    return SingleChildScrollView(
+      restorationId: 'eraList',
+      child: Center(
+        child: Card(
+          // Leave space for the floating action button
+          margin: const EdgeInsets.only(bottom: 75.0),
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 600.0),
+            padding: const EdgeInsets.all(20.0),
+            child: Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              textBaseline: TextBaseline.ideographic,
+              columnWidths: const {
+                0: FlexColumnWidth(),
+                1: FlexColumnWidth(),
+                2: FixedColumnWidth(50),
+                3: FixedColumnWidth(30),
+                4: FixedColumnWidth(50),
+              },
+              children: [
+                _eraTableHeader(context),
+                ...List<TableRow>.generate(eraData.length, (i) {
+                  final index =
+                      displayOrder == EraListDisplayOrderPreference.newestFirst
+                          ? eraData.length - i - 1
+                          : i;
+                  final era = eraData[index];
+                  final endYear = index < eraData.length - 1
+                      ? eraData[index + 1].startYear
+                      : null;
+                  return TableRow(
+                    children: [
+                      Text(era.kanjiTitle, style: style),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(era.romajiTitle, style: style),
+                      ),
+                      Text(era.startYear.toString(),
+                          textAlign: TextAlign.right, style: style),
+                      const Text('-',
+                          textAlign: TextAlign.center, style: style),
+                      Text(
+                        endYear?.toString() ?? '',
+                        textAlign: TextAlign.left,
+                        style: style.copyWith(
+                            color: Theme.of(context).disabledColor),
+                      ),
+                    ].map(_addTopPadding).toList(),
+                  );
+                }).reversed.toList(),
+              ],
+            ),
           ),
         ),
       ),

@@ -27,5 +27,6 @@
   "fromYear": "始期",
   "untilYear": "終期",
   "kanjiHeading": "漢字",
-  "romajiHeading": "ローマ字"
+  "romajiHeading": "ローマ字",
+  "reverseEraListOrder": "リストの順番を逆に"
 }

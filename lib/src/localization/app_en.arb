@@ -75,5 +75,6 @@
   "fromYear": "From",
   "untilYear": "Until",
   "kanjiHeading": "Japanese",
-  "romajiHeading": "English"
+  "romajiHeading": "English",
+  "reverseEraListOrder": "Reverse list order"
 }

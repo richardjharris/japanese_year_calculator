@@ -44,11 +44,11 @@ class SettingRight extends StatelessWidget {
 ///
 /// App credits are shown at the bottom.
 class SettingsView extends StatelessWidget {
-  const SettingsView({Key? key, required this.controller}) : super(key: key);
+  const SettingsView({Key? key, required this.settings}) : super(key: key);
 
   static const routeName = '/settings';
 
-  final SettingsController controller;
+  final SettingsController settings;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class SettingsView extends StatelessWidget {
           title: Text(context.loc.settings),
         ),
         body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: Column(children: [
               Expanded(
                 child: Column(
@@ -65,19 +65,19 @@ class SettingsView extends StatelessWidget {
                     Row(
                       children: [
                         SettingLeft(title: context.loc.theme),
-                        SettingRight(child: ThemeSelector(controller)),
+                        SettingRight(child: ThemeSelector(settings)),
                       ],
                     ),
                     Row(
                       children: [
                         SettingLeft(title: context.loc.appLanguage),
-                        SettingRight(child: AppLanguageSelector(controller)),
+                        SettingRight(child: AppLanguageSelector(settings)),
                       ],
                     ),
                     Row(
                       children: [
                         SettingLeft(title: context.loc.dateLanguage),
-                        SettingRight(child: DateLanguageSelector(controller)),
+                        SettingRight(child: DateLanguageSelector(settings)),
                       ],
                     ),
                   ],

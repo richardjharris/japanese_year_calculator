@@ -46,9 +46,9 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
-                    return SettingsView(controller: settingsController);
+                    return SettingsView(settings: settingsController);
                   case EraListView.routeName:
-                    return const EraListView();
+                    return EraListView(settings: settingsController);
                   case YearDialView.routeName:
                   default:
                     return YearDialView(settings: settingsController);

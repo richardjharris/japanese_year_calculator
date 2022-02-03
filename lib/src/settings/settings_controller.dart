@@ -23,6 +23,9 @@ class SettingsController with ChangeNotifier {
   /// The language used for showing Japanese dates on the dial.
   late DateLanguagePreference _dateLanguage;
 
+  /// Preference for era list display order.
+  late EraListDisplayOrderPreference _eraListDisplayOrder;
+
   /// Returns the user's preferred [ThemeMode].
   ThemeMode get themeMode => _themeMode;
 
@@ -31,6 +34,9 @@ class SettingsController with ChangeNotifier {
 
   /// Returns the user's preferred language for Japanese dates.
   DateLanguagePreference get dateLanguage => _dateLanguage;
+
+  /// Returns the user's preferred era list display order.
+  EraListDisplayOrderPreference get eraListDisplayOrder => _eraListDisplayOrder;
 
   Locale? appLocale() {
     switch (appLanguage) {
@@ -49,6 +55,7 @@ class SettingsController with ChangeNotifier {
     _themeMode = await _settingsService.themeMode();
     _appLanguage = await _settingsService.appLanguage();
     _dateLanguage = await _settingsService.dateLanguage();
+    _eraListDisplayOrder = await _settingsService.eraListDisplayOrder();
 
     // Important! Inform listeners a change has occurred.
     notifyListeners();
@@ -83,5 +90,23 @@ class SettingsController with ChangeNotifier {
     _dateLanguage = language;
     notifyListeners();
     await _settingsService.updateDateLanguage(language);
+  }
+
+  Future<void> updateEraListDisplayOrder(
+      EraListDisplayOrderPreference? order) async {
+    if (order == null) return;
+    if (order == _eraListDisplayOrder) return;
+
+    _eraListDisplayOrder = order;
+    notifyListeners();
+    await _settingsService.updateEraListDisplayOrder(order);
+  }
+
+  Future<void> toggleEraListDisplayOrder() async {
+    final newOrder =
+        _eraListDisplayOrder == EraListDisplayOrderPreference.newestFirst
+            ? EraListDisplayOrderPreference.oldestFirst
+            : EraListDisplayOrderPreference.newestFirst;
+    return updateEraListDisplayOrder(newOrder);
   }
 }

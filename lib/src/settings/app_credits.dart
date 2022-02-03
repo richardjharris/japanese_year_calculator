@@ -67,6 +67,7 @@ class AppCredits extends StatelessWidget {
     );
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(text: bodySpan),
         const SizedBox(height: 8.0),

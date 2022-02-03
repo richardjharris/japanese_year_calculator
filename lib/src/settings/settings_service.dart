@@ -7,6 +7,8 @@ enum AppLanguagePreference { en, ja, system }
 
 enum DateLanguagePreference { en, ja }
 
+enum EraListDisplayOrderPreference { oldestFirst, newestFirst }
+
 /// A service that stores and retrieves user settings.
 ///
 /// By default, this class does not persist user settings. If you'd like to
@@ -81,5 +83,24 @@ class SettingsService {
       default:
         return DateLanguagePreference.en;
     }
+  }
+
+  Future<EraListDisplayOrderPreference> eraListDisplayOrder() async {
+    final SharedPreferences prefs = await _prefs;
+    final String order =
+        prefs.getString('eraListDisplayOrder') ?? 'newestFirst';
+    switch (order) {
+      case 'oldestFirst':
+        return EraListDisplayOrderPreference.oldestFirst;
+      case 'newestFirst':
+      default:
+        return EraListDisplayOrderPreference.newestFirst;
+    }
+  }
+
+  Future<void> updateEraListDisplayOrder(
+      EraListDisplayOrderPreference order) async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setString('eraListDisplayOrder', order.name);
   }
 }
