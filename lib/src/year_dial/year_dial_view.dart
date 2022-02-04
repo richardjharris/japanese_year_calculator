@@ -34,6 +34,14 @@ class _YearDialViewState extends State<YearDialView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Image.asset(
+            'assets/appicon_round.png',
+            isAntiAlias: true,
+            filterQuality: FilterQuality.medium,
+          ),
+        ),
         title: Text(context.loc.appTitle),
         actions: [
           IconButton(
