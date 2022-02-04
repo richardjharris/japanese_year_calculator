@@ -2,11 +2,6 @@
 
 A simple Flutter app that converts between Japanese and Western years.
 
-## TODO
-
-Expanded inside SizedBox:
-SizedBox.shrink ← Expanded ← Spacer ← Padding ← Table ← Padding ← ConstrainedBox ← Container ← Semantics ← DefaultTextStyle ← ⋯
-
 ## Development
 
 ### State management
@@ -15,10 +10,12 @@ This app follows the Flutter Skeleton 2.0 which uses traditional
 stage management (i.e. passing controllers down the Widget tree).
 
 The [SettingsController] manages settings changes, persisting them
-to SharedPreferences, and rebuilding the app upon change.
+to SharedPreferences, and broadcasting change notifications.
 
 [AnimatedBuilders] are used to listen to [ChangeNotifier] objects
-and rebuild widgets.
+and rebuild widgets. This is used in two places: a) to rebuild the
+entire app whenever a setting changes, and b) to enable or disable
+the 'Lookup' button based on the validity of the year input box.
 
 ### Directory layout
 
