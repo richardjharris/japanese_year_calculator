@@ -15,6 +15,9 @@ class EraListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine whether to use romaji or kana in era list.
+    final useKana = settings.dateLanguage == DateLanguagePreference.ja;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(context.loc.info),
@@ -24,15 +27,19 @@ class EraListView extends StatelessWidget {
         alignment: Alignment.center,
         child: ScrollableEraList(
           displayOrder: settings.eraListDisplayOrder,
+          useKana: useKana,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.swap_vert),
-        tooltip: context.loc.reverseEraListOrder,
-        onPressed: () {
-          settings.toggleEraListDisplayOrder();
-        },
-      ),
+      floatingActionButton: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          child: FloatingActionButton(
+            child: const Icon(Icons.swap_vert),
+            tooltip: context.loc.reverseEraListOrder,
+            onPressed: () {
+              settings.toggleEraListDisplayOrder();
+            },
+          )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
@@ -76,37 +83,18 @@ Widget _addTopAndBottomPadding(Widget widget) {
   );
 }
 
-TableRow _eraTableHeader(BuildContext context) {
-  return TableRow(
-    children: <Widget>[
-      EraTableHeaderCell.left(context.loc.kanjiHeading),
-      FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: EraTableHeaderCell.left(context.loc.romajiHeading)),
-      EraTableHeaderCell(context.loc.fromYear),
-      const Spacer(),
-      EraTableHeaderCell(context.loc.untilYear),
-    ].map(_addTopAndBottomPadding).toList(),
-    decoration: BoxDecoration(
-      border: Border(
-        bottom: BorderSide(
-          color: Theme.of(context).dividerColor,
-          width: 1.0,
-        ),
-      ),
-    ),
-  );
-}
-
 /// Scrollable list of eras that expands to fit available size.
 class ScrollableEraList extends StatelessWidget {
   static final eraData = YearCalculator.allEras;
 
-  const ScrollableEraList({Key? key, required this.displayOrder})
-      : super(key: key);
+  const ScrollableEraList({
+    Key? key,
+    this.displayOrder = EraListDisplayOrderPreference.newestFirst,
+    this.useKana = false,
+  }) : super(key: key);
 
   final EraListDisplayOrderPreference displayOrder;
+  final bool useKana;
 
   static const style = TextStyle(fontSize: 20);
   static final headerStyle = style.copyWith(fontWeight: FontWeight.bold);
@@ -118,7 +106,7 @@ class ScrollableEraList extends StatelessWidget {
       child: Center(
         child: Card(
           // Leave space for the floating action button
-          margin: const EdgeInsets.only(bottom: 75.0),
+          margin: const EdgeInsets.only(bottom: 45.0),
           child: Container(
             constraints: const BoxConstraints(maxWidth: 600.0),
             padding: const EdgeInsets.all(20.0),
@@ -126,7 +114,7 @@ class ScrollableEraList extends StatelessWidget {
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               textBaseline: TextBaseline.ideographic,
               columnWidths: const {
-                0: FlexColumnWidth(),
+                0: FixedColumnWidth(80),
                 1: FlexColumnWidth(),
                 2: FixedColumnWidth(50),
                 3: FixedColumnWidth(30),
@@ -143,13 +131,24 @@ class ScrollableEraList extends StatelessWidget {
                   final endYear = index < eraData.length - 1
                       ? eraData[index + 1].startYear
                       : null;
+
+                  Widget kanjiText = Text(era.kanjiTitle, style: style);
+                  if (era.kanjiTitle.length == 4) {
+                    // Only a few eras are 4 chars long, compact them
+                    kanjiText = Transform.scale(
+                        scaleX: 0.5,
+                        child: kanjiText,
+                        alignment: Alignment.centerLeft);
+                  }
+
                   return TableRow(
                     children: [
-                      Text(era.kanjiTitle, style: style),
+                      kanjiText,
                       FittedBox(
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
-                        child: Text(era.romajiTitle, style: style),
+                        child: Text(useKana ? era.kanaTitle : era.romajiTitle,
+                            style: style),
                       ),
                       Text(era.startYear.toString(),
                           textAlign: TextAlign.right, style: style),
@@ -166,6 +165,30 @@ class ScrollableEraList extends StatelessWidget {
                 }).reversed.toList(),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  TableRow _eraTableHeader(BuildContext context) {
+    return TableRow(
+      children: <Widget>[
+        EraTableHeaderCell.left(context.loc.kanjiHeading),
+        FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: EraTableHeaderCell.left(
+                useKana ? context.loc.kanaHeading : context.loc.romajiHeading)),
+        EraTableHeaderCell(context.loc.fromYear),
+        const Spacer(),
+        EraTableHeaderCell(context.loc.untilYear),
+      ].map(_addTopAndBottomPadding).toList(),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Theme.of(context).dividerColor,
+            width: 1.0,
           ),
         ),
       ),

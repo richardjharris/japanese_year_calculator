@@ -74,7 +74,8 @@
   "wikipedia": "Wikipedia",
   "fromYear": "From",
   "untilYear": "Until",
-  "kanjiHeading": "Japanese",
+  "kanjiHeading": "Kanji",
   "romajiHeading": "English",
+  "kanaHeading": "Hiragana",
   "reverseEraListOrder": "Reverse list order"
 }

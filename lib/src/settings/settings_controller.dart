@@ -81,6 +81,20 @@ class SettingsController with ChangeNotifier {
     _appLanguage = language;
     notifyListeners();
     await _settingsService.updateAppLanguage(language);
+
+    // When changing language, change the dial language to match. User can
+    // override it afterwards.
+    switch (_appLanguage) {
+      case AppLanguagePreference.en:
+        await updateDateLanguage(DateLanguagePreference.en);
+        break;
+      case AppLanguagePreference.ja:
+        await updateDateLanguage(DateLanguagePreference.ja);
+        break;
+      case AppLanguagePreference.system:
+        // do nothing
+        break;
+    }
   }
 
   Future<void> updateDateLanguage(DateLanguagePreference? language) async {
