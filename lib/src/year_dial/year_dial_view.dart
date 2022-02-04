@@ -70,16 +70,6 @@ class _YearDialViewState extends State<YearDialView> {
               onSelected: (year) {
                 _dialWheelScrollController.jumpToYear(year);
               },
-              onInvalid: () async {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(context.loc.invalidYearError),
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.fromLTRB(
-                        15.0, 5.0, 15.0, 20.0 + yearSelectorHeight),
-                  ),
-                );
-              },
             ),
           ),
         ],

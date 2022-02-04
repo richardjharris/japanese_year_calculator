@@ -23,10 +23,6 @@
       } 
     }
   },
-  "invalidYearError": "Invalid year. Please enter a 4-digit year such as 1985 or 2021.",
-  "@invalidYearError": {
-    "description": "Error message shown when year in invalid. Include an example of a valid 4-digit year."
-  },
   "info": "List of eras",
   "settings": "Settings",
   "theme": "Theme",

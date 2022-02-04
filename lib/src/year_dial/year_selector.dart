@@ -8,12 +8,7 @@ class YearSelector extends StatefulWidget {
   /// Called with the year (an [int]) when the user selects it.
   final ValueSetter<int> onSelected;
 
-  /// Called when the user tries to submit an invalid year.
-  final VoidCallback onInvalid;
-
-  const YearSelector(
-      {Key? key, required this.onSelected, required this.onInvalid})
-      : super(key: key);
+  const YearSelector({Key? key, required this.onSelected}) : super(key: key);
 
   @override
   _YearSelectorState createState() => _YearSelectorState();
@@ -63,14 +58,21 @@ class _YearSelectorState extends State<YearSelector> {
           onEditingComplete: _onSubmit,
         )),
         Container(
-            margin: const EdgeInsets.only(left: 10),
-            child: ElevatedButton(
-              child: Text(context.loc.convertYearButton),
-              onPressed: _onSubmit,
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(100, 48),
-              ),
-            )),
+          margin: const EdgeInsets.only(left: 10),
+          // More like a ChangeNotifierProvider.
+          child: AnimatedBuilder(
+            animation: _yearInputController,
+            builder: (context, child) {
+              return ElevatedButton(
+                child: Text(context.loc.convertYearButton),
+                onPressed: _yearInputController.text.isEmpty ? null : _onSubmit,
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(100, 48),
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }
@@ -80,9 +82,6 @@ class _YearSelectorState extends State<YearSelector> {
     if (year != null) {
       widget.onSelected(year);
       _yearInputController.clear();
-    } else {
-      widget.onInvalid();
-      _yearInputFocusNode.requestFocus();
     }
   }
 }
