@@ -4,11 +4,8 @@ A simple Flutter app that converts between Japanese and Western years.
 
 ## TODO
 
-- Era list: maybe show other kana/romaji forms
-- Settings: allow kana option for era names
-
-  Expanded inside SizedBox:
-  SizedBox.shrink ← Expanded ← Spacer ← Padding ← Table ← Padding ← ConstrainedBox ← Container ← Semantics ← DefaultTextStyle ← ⋯
+Expanded inside SizedBox:
+SizedBox.shrink ← Expanded ← Spacer ← Padding ← Table ← Padding ← ConstrainedBox ← Container ← Semantics ← DefaultTextStyle ← ⋯
 
 ## Development
 
@@ -16,8 +13,12 @@ A simple Flutter app that converts between Japanese and Western years.
 
 This app follows the Flutter Skeleton 2.0 which uses traditional
 stage management (i.e. passing controllers down the Widget tree).
+
 The [SettingsController] manages settings changes, persisting them
 to SharedPreferences, and rebuilding the app upon change.
+
+[AnimatedBuilders] are used to listen to [ChangeNotifier] objects
+and rebuild widgets.
 
 ### Directory layout
 
