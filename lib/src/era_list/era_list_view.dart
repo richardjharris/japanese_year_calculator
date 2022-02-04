@@ -74,11 +74,11 @@ class ScrollableEraList extends StatelessWidget {
           // Leave space for the floating action button
           margin: const EdgeInsets.only(bottom: 45.0),
           child: Container(
-            constraints: const BoxConstraints(maxWidth: 600.0),
+            constraints: const BoxConstraints(maxWidth: 550.0),
             padding: const EdgeInsets.all(20.0),
             child: Table(
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              //textBaseline: TextBaseline.ideographic,
+              textBaseline: TextBaseline.ideographic,
               columnWidths: const {
                 0: FixedColumnWidth(80),
                 1: FlexColumnWidth(),
@@ -131,6 +131,8 @@ class ScrollableEraList extends StatelessWidget {
   }
 
   List<TableRow> _buildEraListRows(Color endYearColor) {
+    final endYearStyle = style.copyWith(color: endYearColor);
+
     return List<TableRow>.generate(eraData.length, (i) {
       final era = eraData[i];
       final endYear = i < eraData.length - 1 ? eraData[i + 1].startYear : null;
@@ -142,27 +144,29 @@ class ScrollableEraList extends StatelessWidget {
             scaleX: 0.5, child: kanjiText, alignment: Alignment.centerLeft);
       }
 
-      return TableRow(
-        children: [
-          kanjiText,
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerLeft,
-            child:
-                Text(useKana ? era.kanaTitle : era.romajiTitle, style: style),
-          ),
-          Text(era.startYear.toString(),
-              textAlign: TextAlign.right, style: style),
-          const Text('-', textAlign: TextAlign.center, style: style),
-          Text(
-            endYear?.toString() ?? '',
-            textAlign: TextAlign.left,
-            style: style.copyWith(
-              color: endYearColor,
-            ),
-          ),
-        ].map(_addTopPadding).toList(),
+      var children = [
+        kanjiText,
+        Text(useKana ? era.kanaTitle : era.romajiTitle, style: style),
+        Text(era.startYear.toString(),
+            textAlign: TextAlign.right, style: style),
+        const Text('-', textAlign: TextAlign.center, style: style),
+        Text(
+          endYear?.toString() ?? '',
+          textAlign: TextAlign.left,
+          style: endYearStyle,
+        ),
+      ];
+
+      // Scale down kana to fit
+      children[1] = FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.centerLeft,
+        child: children[1],
       );
+
+      children = children.map(_addTopPadding).toList();
+
+      return TableRow(children: children);
     }).toList();
   }
 
@@ -178,7 +182,7 @@ class ScrollableEraList extends StatelessWidget {
         EraTableHeaderCell(context.loc.fromYear),
         const Spacer(),
         EraTableHeaderCell(context.loc.untilYear),
-      ].map(_addTopAndBottomPadding).toList(),
+      ].toList(),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -193,13 +197,6 @@ class ScrollableEraList extends StatelessWidget {
   Widget _addTopPadding(Widget widget) {
     return Padding(
       padding: const EdgeInsets.only(top: 12.0),
-      child: widget,
-    );
-  }
-
-  Widget _addTopAndBottomPadding(Widget widget) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: widget,
     );
   }
@@ -222,10 +219,13 @@ class EraTableHeaderCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      headerText,
-      style: headerStyle,
-      textAlign: textAlign,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Text(
+        headerText,
+        style: headerStyle,
+        textAlign: textAlign,
+      ),
     );
   }
 }
