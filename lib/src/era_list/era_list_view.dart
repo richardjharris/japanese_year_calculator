@@ -180,7 +180,7 @@ class ScrollableEraList extends StatelessWidget {
             child: EraTableHeaderCell.left(
                 useKana ? context.loc.kanaHeading : context.loc.romajiHeading)),
         EraTableHeaderCell(context.loc.fromYear),
-        const Spacer(),
+        const SizedBox(),
         EraTableHeaderCell(context.loc.untilYear),
       ].toList(),
       decoration: BoxDecoration(
