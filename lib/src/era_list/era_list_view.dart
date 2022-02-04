@@ -69,63 +69,62 @@ class ScrollableEraList extends StatelessWidget {
 
     /// We build two versions of the same era list (one oldest first, one newest
     /// first) and animate between them.
-    Table _makeTable(List<TableRow> rows, Key key) => Table(
+    Widget _makeTable(List<TableRow> rows, Key key) => Card(
           key: key,
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          //textBaseline: TextBaseline.ideographic,
-          columnWidths: const {
-            0: FixedColumnWidth(80),
-            1: FlexColumnWidth(),
-            2: FixedColumnWidth(50),
-            3: FixedColumnWidth(30),
-            4: FixedColumnWidth(50),
-          },
-          children: [header, ...rows],
-        );
-
-    return SingleChildScrollView(
-      restorationId: 'eraList',
-      child: Center(
-        child: Card(
           // Leave space for the floating action button
           margin: const EdgeInsets.only(bottom: 45.0),
           child: Container(
             constraints: const BoxConstraints(maxWidth: 600.0),
             padding: const EdgeInsets.all(20.0),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              //switchInCurve: Curves.easeOutExpo,
-              //switchOutCurve: Curves.easeInExpo,
-              child: displayOrder == EraListDisplayOrderPreference.newestFirst
-                  ? _makeTable(
-                      rows.reversed.toList(), const ValueKey('newestFirst'))
-                  : _makeTable(rows.toList(), const ValueKey('oldestFirst')),
-              transitionBuilder: (child, animation) {
-                // Transition behaves as if the oldestFirst table is left of the
-                // newestFirst table, and we slide horizontally between them.
-                // Therefore the oldestFirst x transition is from -1.0 to 0.0,
-                // and the newestFirst x transition is from 0.0 to 1.0.
-                final offsetAnimation =
-                    (child.key == const ValueKey('oldestFirst')
-                            ? Tween(
-                                begin: const Offset(-1.0, 0.0),
-                                end: const Offset(0.0, 0.0),
-                              )
-                            : Tween(
-                                begin: const Offset(1.0, 0.0),
-                                end: const Offset(0.0, 0.0),
-                              ))
-                        .animate(animation);
-
-                return ClipRect(
-                  child: SlideTransition(
-                    position: offsetAnimation,
-                    child: child,
-                  ),
-                );
+            child: Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              //textBaseline: TextBaseline.ideographic,
+              columnWidths: const {
+                0: FixedColumnWidth(80),
+                1: FlexColumnWidth(),
+                2: FixedColumnWidth(50),
+                3: FixedColumnWidth(30),
+                4: FixedColumnWidth(50),
               },
+              children: [header, ...rows],
             ),
           ),
+        );
+
+    return SingleChildScrollView(
+      restorationId: 'eraList',
+      child: Center(
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          switchInCurve: Curves.easeOutExpo,
+          switchOutCurve: Curves.easeInExpo,
+          child: displayOrder == EraListDisplayOrderPreference.newestFirst
+              ? _makeTable(
+                  rows.reversed.toList(), const ValueKey('newestFirst'))
+              : _makeTable(rows.toList(), const ValueKey('oldestFirst')),
+          transitionBuilder: (child, animation) {
+            // Transition behaves as if the oldestFirst table is left of the
+            // newestFirst table, and we slide horizontally between them.
+            // Therefore the oldestFirst x transition is from -1.0 to 0.0,
+            // and the newestFirst x transition is from 0.0 to 1.0.
+            final offsetAnimation = (child.key == const ValueKey('oldestFirst')
+                    ? Tween(
+                        begin: const Offset(-1.0, 0.0),
+                        end: const Offset(0.0, 0.0),
+                      )
+                    : Tween(
+                        begin: const Offset(1.0, 0.0),
+                        end: const Offset(0.0, 0.0),
+                      ))
+                .animate(animation);
+
+            return ClipRect(
+              child: SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              ),
+            );
+          },
         ),
       ),
     );
