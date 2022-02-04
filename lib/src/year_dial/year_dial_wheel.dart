@@ -105,6 +105,9 @@ class YearDialWheel extends StatelessWidget {
       ));
     }
 
-    return Row(children: items);
+    return Row(
+      children: items,
+      mainAxisSize: MainAxisSize.min,
+    );
   }
 }
