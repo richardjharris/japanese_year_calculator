@@ -96,8 +96,8 @@ class ScrollableEraList extends StatelessWidget {
       child: Center(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
-          switchInCurve: Curves.easeOutExpo,
-          switchOutCurve: Curves.easeInExpo,
+          switchInCurve: Curves.easeOut,
+          switchOutCurve: Curves.easeIn,
           child: displayOrder == EraListDisplayOrderPreference.newestFirst
               ? _makeTable(
                   rows.reversed.toList(), const ValueKey('newestFirst'))

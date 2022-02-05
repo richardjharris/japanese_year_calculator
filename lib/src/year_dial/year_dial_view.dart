@@ -42,7 +42,8 @@ class _YearDialViewState extends State<YearDialView> {
             filterQuality: FilterQuality.medium,
           ),
         ),
-        title: Text(context.loc.appTitle),
+        title:
+            FittedBox(child: Text(context.loc.appTitle), fit: BoxFit.fitWidth),
         actions: [
           IconButton(
             icon: const Icon(Icons.view_list),
