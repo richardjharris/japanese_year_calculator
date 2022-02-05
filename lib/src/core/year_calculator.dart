@@ -18,15 +18,21 @@ class JapaneseEra {
   /// separated by '/' (in the same order as [kanaTitle]).
   final String romajiTitles;
 
+  /// If true, era has no official name.
+  final bool nameUnknown;
+
   String get kanaTitle => kanaTitles.split('/').first;
   String get romajiTitle => romajiTitles.split('/').first;
-  bool get isUnnamed => kanjiTitle == '－';
 
   const JapaneseEra(
-      this.startYear, this.kanjiTitle, this.kanaTitles, this.romajiTitles);
+      this.startYear, this.kanjiTitle, this.kanaTitles, this.romajiTitles,
+      {this.nameUnknown = false});
 
-  /// Constructor for eras that have no official name.
-  const JapaneseEra.unnamed(int startYear) : this(startYear, '－', '－', '－');
+  const JapaneseEra.unknown(this.startYear)
+      : kanjiTitle = '不明',
+        kanaTitles = '',
+        romajiTitles = 'unknown',
+        nameUnknown = true;
 }
 
 /// Holds a Japanese year [era] (Reiwa, Showa etc.) and year [index] (1 for the

@@ -5,10 +5,10 @@ const eras = [
   JapaneseEra(645, "大化", "たいか", "Taika"),
   JapaneseEra(650, "白雉", "はくち/びゃくち/しらきぎす", "Hakuchi"),
   // 孝徳天皇の崩御後、新たな元号は定められず。
-  JapaneseEra.unnamed(654),
+  JapaneseEra.unknown(654),
   // For only 2 months, 8月14日 -> 10月1日
   JapaneseEra(686, "朱鳥", "しゅちょう/すちょう/あかみどり", "Shuchō/Suchō/Akamidori"),
-  JapaneseEra.unnamed(686),
+  JapaneseEra.unknown(686),
   JapaneseEra(701, "大宝", "たいほう/だいほう", "Taihō/Daihō"),
   JapaneseEra(704, "慶雲", "けいうん/きょううん", "Keiun/Kyoūn"),
   JapaneseEra(708, "和銅", "わどう", "Wadō"),

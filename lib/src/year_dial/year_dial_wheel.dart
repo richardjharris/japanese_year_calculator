@@ -107,6 +107,9 @@ class YearDialWheel extends StatelessWidget {
         label = ' ・ $label';
         style = const TextStyle(fontSize: 10);
       }
+      if (japaneseYears[index].era.nameUnknown) {
+        style = style.copyWith(fontStyle: FontStyle.italic);
+      }
 
       return Text(
         label,
