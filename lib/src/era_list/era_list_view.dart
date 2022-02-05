@@ -137,7 +137,8 @@ class ScrollableEraList extends StatelessWidget {
       final era = eraData[i];
       final endYear = i < eraData.length - 1 ? eraData[i + 1].startYear : null;
 
-      Widget kanjiText = Text(era.kanjiTitle, style: style);
+      Widget kanjiText =
+          Text(era.kanjiTitle, style: style, locale: const Locale('ja'));
       if (era.kanjiTitle.length == 4) {
         // Only a few eras are 4 chars long, compact them
         kanjiText = Transform.scale(
@@ -146,7 +147,9 @@ class ScrollableEraList extends StatelessWidget {
 
       var children = [
         kanjiText,
-        Text(useKana ? era.kanaTitle : era.romajiTitle, style: style),
+        useKana
+            ? Text(era.kanaTitle, style: style, locale: const Locale('ja'))
+            : Text(era.romajiTitle, style: style),
         Text(era.startYear.toString(),
             textAlign: TextAlign.right, style: style),
         const Text('-', textAlign: TextAlign.center, style: style),

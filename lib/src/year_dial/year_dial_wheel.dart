@@ -96,26 +96,28 @@ class YearDialWheel extends StatelessWidget {
   Widget _japaneseYearLabel(int westernYear) {
     final japaneseYears = YearCalculator.getAllJapaneseYears(westernYear);
 
-    List<Widget> items = [
-      Text(
-        japaneseYears.first.toLocalizedString(language: dialLanguage),
-        style: const TextStyle(fontSize: 20),
-        textAlign: TextAlign.left,
-      )
-    ];
+    final locale =
+        dialLanguage == DateLanguagePreference.ja ? const Locale('ja') : null;
 
-    for (int i = 1; i < japaneseYears.length; i++) {
-      String altLabel =
-          japaneseYears[i].toLocalizedString(language: dialLanguage);
-      items.add(Text(
-        ' ・ $altLabel',
-        style: const TextStyle(fontSize: 10),
+    final labels = List<Text>.generate(japaneseYears.length, (index) {
+      var label =
+          japaneseYears[index].toLocalizedString(language: dialLanguage);
+      var style = const TextStyle(fontSize: 20);
+      if (index > 0) {
+        label = ' ・ $label';
+        style = const TextStyle(fontSize: 10);
+      }
+
+      return Text(
+        label,
+        style: style,
         textAlign: TextAlign.left,
-      ));
-    }
+        locale: locale,
+      );
+    });
 
     return Row(
-      children: items,
+      children: labels,
       mainAxisSize: MainAxisSize.min,
     );
   }
