@@ -5,38 +5,6 @@ import 'package:japanese_year_calculator/src/settings/app_credits.dart';
 import 'package:japanese_year_calculator/src/settings/settings_service.dart';
 import 'settings_controller.dart';
 
-/// Left side (label) for a setting
-class SettingLeft extends StatelessWidget {
-  final String title;
-
-  const SettingLeft({Key? key, required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.headline6,
-            )));
-  }
-}
-
-/// Right side (control) for a setting
-class SettingRight extends StatelessWidget {
-  final Widget child;
-
-  const SettingRight({Key? key, required this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        flex: 2,
-        child: Padding(padding: const EdgeInsets.all(8.0), child: child));
-  }
-}
-
 /// Displays the various settings that can be customized by the user.
 ///
 /// When a user changes a setting, the SettingsController is updated and
@@ -57,28 +25,42 @@ class SettingsView extends StatelessWidget {
           title: Text(context.loc.settings),
         ),
         body: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            padding: const EdgeInsets.all(20),
             child: Column(children: [
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(
-                      children: [
-                        SettingLeft(title: context.loc.theme),
-                        SettingRight(child: ThemeSelector(settings)),
-                      ],
+                    DropdownSettingsTile<ThemeMode>(
+                      title: context.loc.theme,
+                      value: settings.themeMode,
+                      onChanged: settings.updateThemeMode,
+                      items: {
+                        ThemeMode.system: context.loc.systemTheme,
+                        ThemeMode.light: context.loc.lightTheme,
+                        ThemeMode.dark: context.loc.darkTheme,
+                      },
                     ),
-                    Row(
-                      children: [
-                        SettingLeft(title: context.loc.appLanguage),
-                        SettingRight(child: AppLanguageSelector(settings)),
-                      ],
+                    DropdownSettingsTile<AppLanguagePreference>(
+                      title: context.loc.appLanguage,
+                      value: settings.appLanguage,
+                      onChanged: settings.updateAppLanguage,
+                      items: {
+                        AppLanguagePreference.system:
+                            context.loc.systemLanguage,
+                        AppLanguagePreference.en: context.loc.englishLanguage,
+                        AppLanguagePreference.ja: context.loc.japaneseLanguage,
+                      },
                     ),
-                    Row(
-                      children: [
-                        SettingLeft(title: context.loc.dateLanguage),
-                        SettingRight(child: DateLanguageSelector(settings)),
-                      ],
+                    DropdownSettingsTile<DateLanguagePreference>(
+                      title: context.loc.dateLanguage,
+                      value: settings.dateLanguage,
+                      onChanged: settings.updateDateLanguage,
+                      items: {
+                        DateLanguagePreference.en:
+                            context.loc.romajiDateSetting,
+                        DateLanguagePreference.ja: context.loc.kanjiDateSetting,
+                      },
                     ),
                   ],
                 ),
@@ -88,86 +70,42 @@ class SettingsView extends StatelessWidget {
   }
 }
 
-class ThemeSelector extends StatelessWidget {
-  final SettingsController controller;
+class DropdownSettingsTile<T> extends StatelessWidget {
+  final String title;
+  final String? subtitle;
+  final Map<T, String> items;
+  final T value;
+  final ValueChanged<T?> onChanged;
 
-  // ignore: use_key_in_widget_constructors
-  const ThemeSelector(this.controller);
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<ThemeMode>(
-      // Read the selected themeMode from the controller
-      value: controller.themeMode,
-      // Call the updateThemeMode method any time the user selects a theme.
-      onChanged: controller.updateThemeMode,
-      items: [
-        DropdownMenuItem(
-          value: ThemeMode.system,
-          child: Text(context.loc.systemTheme),
-        ),
-        DropdownMenuItem(
-          value: ThemeMode.light,
-          child: Text(context.loc.lightTheme),
-        ),
-        DropdownMenuItem(
-          value: ThemeMode.dark,
-          child: Text(context.loc.darkTheme),
-        )
-      ],
-    );
-  }
-}
-
-class DateLanguageSelector extends StatelessWidget {
-  final SettingsController controller;
-
-  // ignore: use_key_in_widget_constructors
-  const DateLanguageSelector(this.controller);
+  const DropdownSettingsTile({
+    Key? key,
+    required this.title,
+    this.subtitle,
+    required this.items,
+    required this.value,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<DateLanguagePreference>(
-      value: controller.dateLanguage,
-      onChanged: controller.updateDateLanguage,
-      items: [
-        DropdownMenuItem(
-          value: DateLanguagePreference.en,
-          child: Text(context.loc.romajiDateSetting),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: Theme.of(context).textTheme.labelLarge),
+        if (subtitle != null) ...[
+          const SizedBox(height: 8),
+          Text(subtitle!, style: Theme.of(context).textTheme.labelMedium),
+        ],
+        DropdownButton<T>(
+          value: value,
+          onChanged: onChanged,
+          isExpanded: true,
+          items: items.entries
+              .map((item) =>
+                  DropdownMenuItem(value: item.key, child: Text(item.value)))
+              .toList(),
         ),
-        DropdownMenuItem(
-          value: DateLanguagePreference.ja,
-          child: Text(context.loc.kanjiDateSetting),
-        ),
-      ],
-    );
-  }
-}
-
-class AppLanguageSelector extends StatelessWidget {
-  final SettingsController controller;
-
-  // ignore: use_key_in_widget_constructors
-  const AppLanguageSelector(this.controller);
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<AppLanguagePreference>(
-      value: controller.appLanguage,
-      onChanged: controller.updateAppLanguage,
-      items: [
-        DropdownMenuItem(
-          value: AppLanguagePreference.system,
-          child: Text(context.loc.systemLanguage),
-        ),
-        DropdownMenuItem(
-          value: AppLanguagePreference.en,
-          child: Text(context.loc.englishLanguage),
-        ),
-        DropdownMenuItem(
-          value: AppLanguagePreference.ja,
-          child: Text(context.loc.japaneseLanguage),
-        ),
+        const SizedBox(height: 20),
       ],
     );
   }

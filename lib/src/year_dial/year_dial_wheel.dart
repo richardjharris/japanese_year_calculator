@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:japanese_year_calculator/src/settings/settings_service.dart';
@@ -13,14 +14,22 @@ class DesktopScreenBehavior extends MaterialScrollBehavior {
       };
 }
 
+// Scroll controller that can jump to a specific year, and starts at the current
+// year by default.
 class DialWheelScrollController extends FixedExtentScrollController {
   final jumpDuration = const Duration(milliseconds: 500);
   final jumpCurve = Curves.easeInOutExpo;
 
-  static final currentYearItemIndex =
-      (DialWheelSettings.numYears - DialWheelSettings.futureYearsToShow - 1);
+  factory DialWheelScrollController() {
+    final thisYear = clock.now().year;
+    final currentYearItemIndex = (DialWheelSettings.numYears -
+            (DialWheelSettings.lastYear - thisYear) -
+            1)
+        .clamp(0, DialWheelSettings.numYears - 1);
+    return DialWheelScrollController._(currentYearItemIndex);
+  }
 
-  DialWheelScrollController() : super(initialItem: currentYearItemIndex);
+  DialWheelScrollController._(initialItem) : super(initialItem: initialItem);
 
   void jumpToYear(int year) {
     final int itemIndex = year - DialWheelSettings.firstYear;

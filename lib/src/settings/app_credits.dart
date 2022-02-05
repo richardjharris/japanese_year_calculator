@@ -36,7 +36,7 @@ class AppCredits extends StatelessWidget {
   }
 
   Widget _creditsText(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyLarge!;
+    final textStyle = Theme.of(context).textTheme.bodyMedium!;
     final smallTextStyle = Theme.of(context).textTheme.bodySmall!;
     final linkColor = Theme.of(context).buttonTheme.colorScheme!.primary;
 

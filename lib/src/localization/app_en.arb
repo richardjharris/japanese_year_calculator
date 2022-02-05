@@ -34,7 +34,7 @@
   "romajiDateSetting": "Romaji (English)",
   "kanjiDateSetting": "Kanji (Japanese)",
   "appLanguage": "Application language",
-  "dateLanguage": "Date language",
+  "dateLanguage": "Era display format",
   "systemLanguage": "System",
   "@systemLanguage": {
     "description": "Option shown to denote using the system locale (language)"
