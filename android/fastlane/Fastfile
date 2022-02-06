@@ -1,0 +1,18 @@
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Google Play Store"
+  lane :beta do
+    build_number = number_of_commits
+    Dir.chdir "../.." do
+      sh("flutter", "clean")
+      sh("flutter", "build", "appbundle", "--build-number=#{build_number}")
+    end
+    upload_to_play_store(track: 'beta', aab: '../build/app/outputs/bundle/release/app-release.aab')
+  end
+end

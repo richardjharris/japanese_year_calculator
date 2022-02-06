@@ -1,0 +1,2 @@
+json_key_file("/home/rjh/Documents/play-service-account.json")
+package_name("io.github.richardjharris.JapaneseYearCalculator")
