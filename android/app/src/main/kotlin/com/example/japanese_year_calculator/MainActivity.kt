@@ -1,4 +1,4 @@
-package com.example.japanese_year_calculator
+package io.github.richardjharris.JapaneseYearCalculator
 
 import io.flutter.embedding.android.FlutterActivity
 
