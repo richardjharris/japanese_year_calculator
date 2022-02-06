@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "japanese_year_calculator")
-set(APPLICATION_ID "com.example.japanese_year_calculator")
+set(BINARY_NAME "Japanese Year Calculator")
+set(APPLICATION_ID "io.github.richardjharris.JapaneseYearCalculator")
 
 cmake_policy(SET CMP0063 NEW)
 
