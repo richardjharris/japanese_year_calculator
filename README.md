@@ -7,7 +7,7 @@ A simple Flutter app that converts between Japanese and Western years.
 ### State management
 
 This app follows the Flutter Skeleton 2.0 which uses traditional
-stage management (i.e. passing controllers down the Widget tree).
+state management (passing controllers down the Widget tree).
 
 The [SettingsController] manages settings changes, persisting them
 to SharedPreferences, and broadcasting change notifications.
@@ -22,7 +22,7 @@ the 'Lookup' button based on the validity of the year input box.
 ```
 lib/src/(feature)            - Feature code (controller, service, view, widget)
 lib/src/localization         - Localized messages
-lib/src/core                 - Calculator logic (non-Flutter)
+lib/src/core                 - Calculator logic (pure Dart)
 lib/src/themes.dart          - Theming
 lib/src/app.dart             - App routing
 lib/main.dart                - App entry point
