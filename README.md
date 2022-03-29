@@ -2,6 +2,13 @@
 
 A simple Flutter app that converts between Japanese and Western years.
 
+<img align="left" alt="App screenshot" src="android/fastlane/metadata/android/en-GB/images/phoneScreenshots/1_en-GB.jpeg" width="20%" />
+<img align="left" alt="App screenshot" src="android/fastlane/metadata/android/en-GB/images/phoneScreenshots/2_en-GB.jpeg" width="20%" />
+<img align="left" alt="App screenshot" src="android/fastlane/metadata/android/en-GB/images/phoneScreenshots/3_en-GB.jpeg" width="20%" />
+<img alt="App screenshot" src="android/fastlane/metadata/android/en-GB/images/phoneScreenshots/4_en-GB.jpeg" width="20%" />
+
+---
+
 ## Development
 
 ### State management
